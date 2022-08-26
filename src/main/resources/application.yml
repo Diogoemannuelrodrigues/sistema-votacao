@@ -1,0 +1,44 @@
+#server.port= 8080
+#spring.application.name=sistemavotacao
+#spring.datasource.url=jdbc:postgresql://localhost:5432/sistemavotacao?createDatabaseIfNotExist=true&useSSL=false
+#spring.datasource.username=postgres
+#spring.datasource.password=123456
+#spring.datasource.driver-class-name=org.postgresql.Driver
+## Show or not log for each sql query
+#spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.properties.hibernate.format_sql=true
+#
+## Allows Hibernate to generate SQL optimized for a particular DBMS
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+#
+##Tempo de sessao da votacao
+#tempo.sessao.votacao.segundos=60
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sistemavotacao
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sistemavotacao
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+tempo:
+  sessao:
+    votacao:
+      segundos: 60000
