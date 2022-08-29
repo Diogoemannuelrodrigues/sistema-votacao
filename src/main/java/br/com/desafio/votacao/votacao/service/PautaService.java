@@ -1,18 +1,24 @@
 package br.com.desafio.votacao.votacao.service;
 
 import br.com.desafio.votacao.votacao.entity.Pauta;
+import br.com.desafio.votacao.votacao.entity.SessaoVotacao;
+import br.com.desafio.votacao.votacao.entity.Voto;
 import br.com.desafio.votacao.votacao.repository.PautaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PautaService {
 
     @Autowired
     private PautaRepository pautaRepository;
+    @Autowired
+    private SessaoVotacaoService service;
 
     @Value("${tempo.sessao.votacao.segundos}")
     private Integer tempoSessaoPadrao;
@@ -39,5 +45,24 @@ public class PautaService {
 
     public List<Pauta> pautaList(){
         return pautaRepository.findAll();
+    }
+
+    public SessaoVotacao getSessao(Integer idSessao){
+        var sessao = service.findBy(idSessao);
+        return sessao;
+    }
+
+    public Map<String, Long> resultadoVotacao(Integer idPauta) {
+
+        List<Voto> votos = getSessao(idPauta).getVotos();
+        if(!votos.isEmpty()){
+
+            Map<String, Long> result = new HashMap<>();
+            result.put("SIM", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("SIM")).count());
+            result.put("NAO", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("NAO")).count());
+
+            return result;
+        }
+        return null;
     }
 }

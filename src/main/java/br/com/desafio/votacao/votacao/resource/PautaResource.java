@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -18,10 +18,16 @@ public class PautaResource {
     @Autowired
     private PautaService pautaService;
 
-    @GetMapping
-    public List<Pauta> getPautas() {
+    @GetMapping("/{idPauta}")
+    public ResponseEntity<Pauta> getByIdPautas(@PathVariable Integer idPauta) {
+
         log.info("Listando pautas...");
-        return pautaService.pautaList();
+        var pauta = pautaService.findBy(idPauta);
+        if (Objects.nonNull(pauta)) {
+            return ResponseEntity
+                    .ok(pauta);
+        }
+        return null;
     }
 
     @PostMapping
@@ -32,14 +38,27 @@ public class PautaResource {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(pauta);
     }
 
-    private  ResponseEntity<?> deletePauta(Integer idPauta) {
+    @DeleteMapping
+    private ResponseEntity<?> deletePauta(Integer idPauta) {
         pautaService.deletePauta(idPauta);
         log.info("Pauta deletada com sucesso {}", idPauta);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
+
+    @GetMapping
+    public ResponseEntity getResultadoVotacao(Integer idPauta) {
+        if (idPauta != null) {
+            log.info("Apurando votação!");
+            var resultado = pautaService.resultadoVotacao(idPauta);
+            return ResponseEntity.ok().body(resultado);
+        }
+        log.info("Apurando votação!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }

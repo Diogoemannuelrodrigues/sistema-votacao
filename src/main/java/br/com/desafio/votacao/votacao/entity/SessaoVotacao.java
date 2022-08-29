@@ -33,4 +33,6 @@ public class SessaoVotacao implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "sessaoVotacao", cascade = CascadeType.ALL)
     private List<Voto> votos = new ArrayList<>();
+
+    private boolean active;
 }

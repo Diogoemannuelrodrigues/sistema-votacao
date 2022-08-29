@@ -53,17 +53,17 @@ public class VotoService {
         votoRepository.save(voto);
     }
 
-    public Map<String, Long> resultadoVotacao(Integer idPauta) {
-
-        List<Voto> votos = getSessao(idPauta).getVotos();
-        if(!votos.isEmpty()){
-
-        Map<String, Long> result = new HashMap<>();
-        result.put("SIM", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("SIM")).count());
-        result.put("NAO", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("NAO")).count());
-
-        return result;
-        }
-        return null;
-    }
+//    public Map<String, Long> resultadoVotacao(Integer idPauta) {
+//
+//        List<Voto> votos = getSessao(idPauta).getVotos();
+//        if(!votos.isEmpty()){
+//
+//        Map<String, Long> result = new HashMap<>();
+//        result.put("SIM", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("SIM")).count());
+//        result.put("NAO", votos.stream().filter(v -> v.getTipoVoto().toString().equalsIgnoreCase("NAO")).count());
+//
+//        return result;
+//        }
+//        return null;
+//    }
 }
